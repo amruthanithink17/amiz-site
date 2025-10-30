@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Wishlist</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+     /* header in mobile view */
+        html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* prevent horizontal scroll */
+}
+
+body {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain; /* stops bounce scroll on mobile */
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+main, .content, .container {
+  padding-top: 130px; /* adjust based on header height */
+}
+
+
+        /*end style */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+    .navbar .logo span.blue { color: #3498db; }
+    .navbar .logo span.pink { color: #e91e63; }
+
+    .navbar-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .navbar-icons a {
+      position: relative;
+      font-size: 1.2rem;
+      color: #444;
+      text-decoration: none;
+    }
+
+    .navbar-icons .count {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #e91e63;
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+    }
+
+    /* Wishlist */
+    .wishlist-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #e91e63;
+    }
+
+    .wishlist-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .wishlist-item img {
+      width: 80px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .wishlist-details {
+      flex: 1;
+      margin-left: 15px;
+    }
+
+    .wishlist-details h3 {
+      margin: 0 0 5px;
+    }
+
+    .wishlist-details .price {
+      color: #3498db;
+      font-weight: bold;
+    }
+
+    .remove-btn {
+      background: #e91e63;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .remove-btn:hover {
+      background: #c2185b;
+    }
+
+    .empty {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #777;
+      margin-top: 40px;
+    }
+    div.navbar a{
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">
+      <a href="javascript:history.back()" class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Amiz Clothz Logo" style="height:100px; width:auto; object-fit:contain;">
+       </a>
+    </div>
+    <div class="navbar-icons">
+      <a href="{% url 'account' %}"><i class="fas fa-user"></i></a>
+      <a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i><span class="count wishlist-count">0</span></a>
+      <a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i><span class="count cart-count">0</span></a>
+    </div>
+  </div>
+
+  <!-- Wishlist -->
+  <div class="wishlist-container" id="wishlist-container">
+    <h1>My Wishlist ❤️</h1>
+  </div>
+
+  <script>
+    function renderWishlist() {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let container = document.getElementById("wishlist-container");
+
+      if (wishlist.length === 0) {
+        container.innerHTML += '<p class="empty">Your wishlist is empty.</p>';
+        document.querySelector(".wishlist-count").textContent = 0;
+        return;
+      }
+
+      document.querySelector(".wishlist-count").textContent = wishlist.length;
+
+      wishlist.forEach((item, index) => {
+        container.innerHTML += `
+          <div class="wishlist-item">
+            <img src="${item.img}" alt="${item.name}">
+            <div class="wishlist-details">
+              <h3>${item.name}</h3>
+              <p class="price">${item.price}</p>
+            </div>
+            <button class="remove-btn" onclick="removeFromWishlist(${index})">Remove</button>
+          </div>
+        `;
+      });
+    }
+
+    function removeFromWishlist(index) {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      wishlist.splice(index, 1);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      location.reload();
+    }
+
+    renderWishlist();
+  </script>
+</body>
+</html>

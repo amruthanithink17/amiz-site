@@ -1,0 +1,1078 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale - AmizClothz</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #3a86ff;
+            --secondary: #ff006e;
+            --accent: #8338ec;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --sale: #ff006e;
+            --sale-dark: #d1005a;
+        }
+        /* header in mobile view */
+        html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* prevent horizontal scroll */
+}
+
+body {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain; /* stops bounce scroll on mobile */
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+main, .content, .container {
+  padding-top: 130px; /* adjust based on header height */
+}
+
+
+        /*end style */
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+        }
+        
+        .search-form {
+            display: flex;
+        }
+        
+        .search-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .search-form button {
+            padding: 10px 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .icon-link {
+            color: var(--dark);
+            text-decoration: none;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .icon-link i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        /* Navigation */
+        nav {
+            background: var(--primary);
+            padding: 12px 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a.active {
+            color: white;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        /* Sale Banner */
+        .sale-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{% static 'images/sale.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sale-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--sale), var(--accent));
+            opacity: 0.8;
+            z-index: -1;
+        }
+        
+        .sale-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .sale-banner h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sale-banner p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 80px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .countdown-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .countdown-label {
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--sale);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--sale-dark);
+            transform: translateY(-3px);
+        }
+        
+        /* Categories Section */
+        .section-title {
+            text-align: center;
+            margin: 50px 0 30px;
+            font-size: 32px;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--sale);
+            margin: 10px auto;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .sale-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--sale);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .category-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .category-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .category-card:hover .category-img img {
+            transform: scale(1.1);
+        }
+        
+        .category-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .category-info h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* Products Section */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--sale);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .product-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: var(--primary);
+        }
+        
+        .product-info p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 20px;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        
+        .add-to-cart {
+            background: var(--sale);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .add-to-cart:hover {
+            background: var(--sale-dark);
+        }
+        
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 50px 0;
+            margin: 50px 0;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .feature i {
+            font-size: 40px;
+            color: var(--sale);
+            margin-bottom: 20px;
+        }
+        
+        .feature h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        /* Newsletter Section */
+        .newsletter {
+            background: linear-gradient(to right, var(--sale), var(--accent));
+            padding: 60px 0;
+            color: white;
+            text-align: center;
+        }
+        
+        .newsletter h2 {
+            margin-bottom: 20px;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .newsletter-form button {
+            padding: 0 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            color: white;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--sale);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--sale);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+            
+            .search-bar {
+                width: 100%;
+                max-width: none;
+                margin: 15px 0;
+            }
+            
+            .sale-banner h1 {
+                font-size: 36px;
+            }
+            
+            .sale-banner p {
+                font-size: 18px;
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                width: 100%;
+                border-radius: 4px;
+            }
+        }
+        .product-img {
+  position: relative;
+}
+
+.add-to-wishlist {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #aaa; /* grey by default */
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.add-to-wishlist:hover i {
+  color: red; /* temporary red on hover */
+}
+
+.add-to-wishlist.active i {
+  color: red; /* stays red if saved */
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-header">
+                <a href="{% url 'index' %}" class="logo">
+                    <img src="{% static 'images/logo.png' %}" alt="Amiz Clothz Logo" style="height:100px; width:auto; object-fit:contain;">
+                </a>
+                
+                <div class="search-bar">
+                    <form class="search-form">
+                        <input type="text" placeholder="Search for products...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                
+                <div class="header-icons">
+                    <a href="{% url 'account' %}" class="icon-link">
+                        <i class="fas fa-user"></i>
+                        <span>Account</span>
+                    </a>
+                    <a href="{% url 'wishlist' %}" class="icon-link">
+                        <i class="fas fa-heart"></i>
+                        <span>Wishlist</span>
+                    </a>
+                    <a href="{% url 'cart' %}" class="icon-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Cart</span>
+                        <span class="cart-count">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'mens' %}">Men</a></li>
+                    <li><a href="{% url 'womens' %}">Women</a></li>
+                    <li><a href="{% url 'kids' %}">Kids</a></li>
+                    <li><a href="{% url 'accessories'%}">Accessories</a></li>
+                    <li><a href="{% url 'sales'%}">Sale</a></li>
+                    <li><a href="{% url 'contact'%}" class="active">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Sale Banner -->
+    <section class="sale-banner">
+        <div class="container">
+            <div class="sale-content">
+                <h1>MEGA SALE</h1>
+                <p>Up to 70% OFF on selected items. Limited time only!</p>
+                
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">02</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">12</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">45</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">30</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+                
+                <a href="#products" class="btn">Shop Sale Now</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Categories Section -->
+    <section class="container">
+        <h2 class="section-title">Sale Categories</h2>
+        <div class="categories">
+            <div class="category-card">
+                <div class="sale-badge">50% OFF</div>
+                <div class="category-img">
+                    <img src="{% static 'images/mens wear.jpg' %}" alt="Men's Sale">
+                </div>
+                <div class="category-info">
+                    <h3>Men's Sale</h3>
+                    <a href="{% url 'mens' %}" class="btn">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="sale-badge">60% OFF</div>
+                <div class="category-img">
+                    <img src="{% static 'images/womens wear.jpg' %}" alt="Women's Sale">
+                </div>
+                <div class="category-info">
+                    <h3>Women's Sale</h3>
+                    <a href="{% url 'womens' %}" class="btn">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="sale-badge">40% OFF</div>
+                <div class="category-img">
+                    <img src="{% static 'images/kids.avif' %}" alt="Kids' Sale">
+                </div>
+                <div class="category-info">
+                    <h3>Kids' Sale</h3>
+                    <a href="{% url 'kids' %}" class="btn">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="sale-badge">55% OFF</div>
+                <div class="category-img">
+                    <img src="{% static 'images/accessories.jpg' %}" alt="Accessories Sale">
+                </div>
+                <div class="category-info">
+                    <h3>Accessories Sale</h3>
+                    <a href="{% url 'accessories' %}" class="btn">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Products Section -->
+<section class="container" id="products">
+  <h2 class="section-title">Featured Sale Items</h2>
+  <div class="products">
+
+    <!-- Product 1 -->
+    <div class="product-card">
+      <div class="discount-badge">50% OFF</div>
+      <div class="product-img">
+        <img src="{% static 'images/jacket.jpg' %}" alt="Denim Jacket">
+        <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
+      </div>
+      <div class="product-info">
+        <h3>Denim Jacket</h3>
+        <p>Classic denim jacket with a modern fit</p>
+        <div class="product-price">
+          <div class="price">$29.99 <span class="old-price">$59.99</span></div>
+          <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+      <div class="discount-badge">60% OFF</div>
+      <div class="product-img">
+        <img src="{% static 'images/summer dress.jpg' %}" alt="Summer Dress">
+        <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
+      </div>
+      <div class="product-info">
+        <h3>Summer Dress</h3>
+        <p>Light and comfortable summer dress</p>
+        <div class="product-price">
+          <div class="price">$23.99 <span class="old-price">$59.99</span></div>
+          <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+      <div class="discount-badge">40% OFF</div>
+      <div class="product-img">
+        <img src="{% static 'images/kids outfit.jpg' %}" alt="Kids Outfit">
+        <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
+      </div>
+      <div class="product-info">
+        <h3>Kids Outfit Set</h3>
+        <p>Comfortable and stylish outfit for kids</p>
+        <div class="product-price">
+          <div class="price">$35.99 <span class="old-price">$59.99</span></div>
+          <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product-card">
+      <div class="discount-badge">55% OFF</div>
+      <div class="product-img">
+        <img src="{% static 'images/bag.jpg' %}" alt="Designer Bag">
+        <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
+      </div>
+      <div class="product-info">
+        <h3>Designer Bag</h3>
+        <p>Elegant bag for everyday use</p>
+        <div class="product-price">
+          <div class="price">$44.99 <span class="old-price">$99.99</span></div>
+          <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature">
+                    <i class="fas fa-truck"></i>
+                    <h3>Free Shipping</h3>
+                    <p>On all orders over $50</p>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-undo"></i>
+                    <h3>Easy Returns</h3>
+                    <p>30-day return policy</p>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-gem"></i>
+                    <h3>Premium Quality</h3>
+                    <p>Carefully crafted items</p>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-headset"></i>
+                    <h3>Support 24/7</h3>
+                    <p>Contact us anytime</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Don't Miss Out on Future Sales!</h2>
+            <p>Subscribe to our newsletter and be the first to know about upcoming sales and exclusive offers</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>AmizClothz</h3>
+                    <p>Quality clothing and accessories for the whole family. Making fashion accessible to everyone.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'mens' %}">Men's Fashion</a></li>
+                        <li><a href="{% url 'womens' %}">Women's Fashion</a></li>
+                        <li><a href="{% url 'kids' %}">Kids' Fashion</a></li>
+                        <li><a href="{% url 'accessories' %}">Accessories</a></li>
+                        <li><a href="{% url 'sales' %}">Sale</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Order Tracking</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 AmizClothz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple cart functionality
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                let count = parseInt(document.querySelector('.cart-count').innerText);
+                document.querySelector('.cart-count').innerText = count + 1;
+                
+                // Show added to cart feedback
+                const product = this.closest('.product-card');
+                product.style.boxShadow = '0 0 15px var(--sale)';
+                setTimeout(() => {
+                    product.style.boxShadow = '';
+                }, 1000);
+            });
+        });
+
+        // Countdown timer
+        function updateCountdown() {
+            const days = document.getElementById('days');
+            const hours = document.getElementById('hours');
+            const minutes = document.getElementById('minutes');
+            const seconds = document.getElementById('seconds');
+            
+            let sec = parseInt(seconds.innerText);
+            let min = parseInt(minutes.innerText);
+            let hr = parseInt(hours.innerText);
+            let d = parseInt(days.innerText);
+            
+            sec--;
+            
+            if (sec < 0) {
+                sec = 59;
+                min--;
+                
+                if (min < 0) {
+                    min = 59;
+                    hr--;
+                    
+                    if (hr < 0) {
+                        hr = 23;
+                        d--;
+                        
+                        if (d < 0) {
+                            // Sale has ended
+                            days.innerText = '00';
+                            hours.innerText = '00';
+                            minutes.innerText = '00';
+                            seconds.innerText = '00';
+                            return;
+                        }
+                    }
+                }
+            }
+            
+            days.innerText = d.toString().padStart(2, '0');
+            hours.innerText = hr.toString().padStart(2, '0');
+            minutes.innerText = min.toString().padStart(2, '0');
+            seconds.innerText = sec.toString().padStart(2, '0');
+            
+            setTimeout(updateCountdown, 1000);
+        }
+        
+        // Start the countdown
+        updateCountdown();
+    </script>
+    <script>
+        document.querySelectorAll(".add-to-wishlist").forEach(button => {
+  button.addEventListener("click", e => {
+    e.preventDefault();
+
+    // Toggle active state
+    button.classList.toggle("active");
+
+    // Get product details
+    let productCard = button.closest(".product-card");
+    let name = productCard.querySelector("h3").innerText;
+    let price = productCard.querySelector(".price").innerText;
+    let img = productCard.querySelector("img").getAttribute("src");
+
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    if (button.classList.contains("active")) {
+      // Add to wishlist
+      wishlist.push({ name, price, img });
+    } else {
+      // Remove from wishlist
+      wishlist = wishlist.filter(item => item.name !== name);
+    }
+
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  });
+});
+
+    </script>
+</body>
+</html>

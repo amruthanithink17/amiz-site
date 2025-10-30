@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #ff3b8d;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            background-color: #ff3b8d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+        }
+        a:hover {
+            background-color: #e7327b;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>🎉 Order Placed Successfully!</h2>
+        <p>Thank you for shopping with <b>AmizClothz</b>.</p>
+        <p>Your Order ID: <b>#{{ order.id }}</b></p>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

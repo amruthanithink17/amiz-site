@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | AmizClothz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 500px;
+            margin: 60px auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #ff3b8d;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        button {
+            background-color: #ff3b8d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            margin-top: 20px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e7327b;
+        }
+        .summary {
+            margin-top: 25px;
+            background: #f2f2f2;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Checkout</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Full Name:</label>
+            <input type="text" name="full_name" required>
+
+            <label>Address:</label>
+            <textarea name="address" required></textarea>
+
+            <label>Phone:</label>
+            <input type="text" name="phone" required>
+
+            <label>Email:</label>
+            <input type="email" name="email" required>
+
+            <label>Payment Method:</label>
+            <select name="payment_method" required>
+                <option value="COD">Cash on Delivery</option>
+                <option value="ONLINE">Online Payment</option>
+            </select>
+
+            <div class="summary">
+                <p><b>Total:</b> ₹{{ total }}</p>
+            </div>
+
+            <button type="submit">Confirm Order</button>
+        </form>
+    </div>
+</body>
+</html>

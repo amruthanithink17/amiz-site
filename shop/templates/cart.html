@@ -1,0 +1,430 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Your Cart - AmizClothz</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fb;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 80px auto 40px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+    /* Navbar */
+    .navbar {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: scroll;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+    .navbar .logo span.blue { color: #3498db; }
+    .navbar .logo span.pink { color: #e91e63; }
+
+    .navbar-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .navbar-icons a {
+      position: relative;
+      font-size: 1.2rem;
+      color: #444;
+      text-decoration: none;
+    }
+
+    .navbar-icons .count {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #e91e63;
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+    }
+
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+
+    .cart-count {
+      background: #ff006e;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow-x: auto;
+      display: block;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #3a86ff;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    img.thumb {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    .qty-input {
+      width: 60px;
+      padding: 6px;
+    }
+
+    .remove-btn {
+      background: #ff006e;
+      color: #fff;
+      border: 0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .checkout {
+      background: #ff006e;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .checkout:hover {
+      background: #e60063;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .close {
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff006e;
+    }
+
+    .modal-content h2 {
+      margin: 0 0 15px;
+      color: #ff006e;
+      font-weight: 600;
+    }
+
+    .modal-content label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .modal-content input,
+    .modal-content textarea,
+    .modal-content select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 2px solid #f3c0d0;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      transition: 0.3s;
+      font-size: 14px;
+      background: #fffafc;
+    }
+
+    .modal-content input:focus,
+    .modal-content textarea:focus,
+    .modal-content select:focus {
+      border-color: #ff006e;
+      outline: none;
+      box-shadow: 0 0 6px rgba(255,0,110,0.4);
+    }
+
+    .place-order {
+      background: #ff006e;
+      color: #fff;
+      border: 0;
+      padding: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .place-order:hover {
+      background: #e60063;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ✅ Responsive Fixes */
+    @media (max-width: 768px) {
+      .container {
+        margin: 60px 10px;
+        padding: 15px;
+      }
+      th, td {
+        font-size: 13px;
+        padding: 8px;
+      }
+      img.thumb {
+        width: 50px;
+        height: 50px;
+      }
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+      .checkout {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar h2 {
+        font-size: 18px;
+      }
+      th, td {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">
+      <a href="javascript:history.back()" class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Amiz Clothz Logo" style="height:100px; width:auto; object-fit:contain;">
+       </a>
+    </div>
+    <div class="navbar-icons">
+      <a href="{% url 'account' %}"><i class="fas fa-user"></i></a>
+      <a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i><span class="count wishlist-count">0</span></a>
+      <a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i><span class="count cart-count">0</span></a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="topbar">
+      <h2>Your Shopping Cart</h2>
+      <div>
+        <a href="javascript:history.back()">Continue shopping</a>
+        <span class="cart-count" id="headerCartCount">0</span>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th><th>Remove</th></tr>
+      </thead>
+      <tbody id="cart-items"></tbody>
+    </table>
+
+    <div style="text-align:right;margin-top:20px">
+      <strong>Total: <span id="cart-total">$0.00</span></strong>
+      <div style="margin-top:12px">
+        <button class="checkout" id="checkoutBtn">Proceed to checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Checkout</h2>
+        <span class="close" id="closeModal">&times;</span>
+      </div>
+      <form id="checkoutForm" action="{% url 'proceed_order' %}" method="get">
+        <label>Full Name</label>
+        <input type="text" required>
+        <label>Email</label>
+        <input type="email" required>
+        <label>Address</label>
+        <textarea rows="3" required></textarea>
+        <label>Payment Method</label>
+        <select required>
+          <option value="">Select</option>
+          <option>Credit Card</option>
+          <option>Debit Card</option>
+          <option>UPI</option>
+          <option>Cash on Delivery</option>
+        </select>
+        <button type="submit" class="place-order">Place Order</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function loadCart(){ try { return JSON.parse(localStorage.getItem('cart')) || []; } catch(e){ return []; } }
+    function saveCart(cart){ localStorage.setItem('cart', JSON.stringify(cart)); render(); updateHeaderCount(); }
+
+    const tbody = document.getElementById('cart-items');
+    const totalEl = document.getElementById('cart-total');
+    const headerCount = document.getElementById('headerCartCount');
+
+    function updateHeaderCount(){
+      const cart = loadCart();
+      headerCount.textContent = cart.reduce((s,i)=>s+(i.qty||0),0);
+    }
+
+    function render(){
+      const cart = loadCart();
+      tbody.innerHTML = '';
+      let total = 0;
+
+      if (cart.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#666">Your cart is empty</td></tr>';
+        totalEl.textContent = '$0.00';
+        updateHeaderCount();
+        return;
+      }
+
+      cart.forEach((item, idx) => {
+        let price = parseFloat(item.price);
+        if (isNaN(price) || price <= 0) price = 0; // fallback to 0 if invalid
+        const subtotal = price * (item.qty || 1);
+
+        total += subtotal;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><img class="thumb" src="${item.img}" alt="${item.name}"> <strong>${item.name}</strong></td>
+          <td>$${parseFloat(item.price).toFixed(2)}</td>
+          <td><input class="qty-input" type="number" min="1" value="${item.qty}" data-index="${idx}"></td>
+          <td>$${subtotal.toFixed(2)}</td>
+          <td><button class="remove-btn" data-index="${idx}">Remove</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      totalEl.textContent = '$' + total.toFixed(2);
+      updateHeaderCount();
+    }
+
+    // qty update
+    tbody.addEventListener('input', (e) => {
+      if (e.target.matches('.qty-input')) {
+        const idx = parseInt(e.target.dataset.index, 10);
+        let val = parseInt(e.target.value, 10);
+        if (isNaN(val) || val < 1) val = 1;
+        const cart = loadCart();
+        cart[idx].qty = val;
+        saveCart(cart);
+      }
+    });
+
+    // remove
+    tbody.addEventListener('click', (e) => {
+      if (e.target.matches('.remove-btn')) {
+        const idx = parseInt(e.target.dataset.index, 10);
+        const cart = loadCart();
+        cart.splice(idx, 1);
+        saveCart(cart);
+      }
+    });
+
+    // modal handling
+    const modal = document.getElementById("checkoutModal");
+    const openBtn = document.getElementById("checkoutBtn");
+    const closeBtn = document.getElementById("closeModal");
+    openBtn.addEventListener("click", ()=> modal.style.display="flex");
+    closeBtn.addEventListener("click", ()=> modal.style.display="none");
+    window.addEventListener("click", e=>{ if(e.target==modal) modal.style.display="none"; });
+
+    document.getElementById("checkoutForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      alert("Order placed successfully! 🎉");
+      localStorage.removeItem("cart");
+      render();
+      modal.style.display="none";
+    });
+
+    render();
+  </script>
+</body>
+</html>
