@@ -4,6 +4,7 @@ Django settings for amiz_site project.
 
 import os
 from pathlib import Path
+import dj_database_url
 
 # ---------------------------
 # BASE DIRECTORY
@@ -14,10 +15,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ---------------------------
 # SECURITY SETTINGS
 # ---------------------------
-SECRET_KEY = 'django-insecure-=&m-*x9lgz=j&b=k930x!2g)h=5wdbaihk9tvw_^q)-@b&uyi&'
-DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-=&m-*x9lgz=j&b=k930x!2g)h=5wdbaihk9tvw_^q)-@b&uyi&')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'amiz-site.onrender.com',  # 👈 replace with your Render app name
+]
 
 # ---------------------------
 # APPLICATIONS
@@ -96,6 +100,7 @@ JAZZMIN_UI_TWEAKS = {
 # ---------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ added for Render static support
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,10 +141,9 @@ TEMPLATES = [
 # DATABASE
 # ---------------------------
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+    )
 }
 
 
@@ -167,10 +171,9 @@ USE_TZ = True
 # STATIC FILES
 # ---------------------------
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'shop' / 'static',
-]
+STATICFILES_DIRS = [BASE_DIR / 'shop' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ---------------------------
