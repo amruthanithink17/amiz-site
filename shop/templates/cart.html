@@ -416,7 +416,16 @@
     closeBtn.addEventListener("click", ()=> modal.style.display="none");
     window.addEventListener("click", e=>{ if(e.target==modal) modal.style.display="none"; });
 
-   document.getElementById("checkoutForm").addEventListener("submit", async function(e){
+  /*document.getElementById("checkoutForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  alert("Order placed successfully! 🎉");
+  localStorage.removeItem("cart");
+  render();
+  modal.style.display="none";
+});*/
+
+    
+   /*document.getElementById("checkoutForm").addEventListener("submit", async function(e){
   e.preventDefault();
 
   const name = this.querySelector("input[type='text']").value;
@@ -444,7 +453,12 @@
   } catch (err) {
     alert("Error: " + err.message);
   }
+});*/
+
+    document.getElementById("checkoutForm").addEventListener("submit", function() {
+  localStorage.removeItem("cart"); // clear cart after successful form submit
 });
+
 
     render();
   </script>
