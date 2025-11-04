@@ -321,7 +321,7 @@
         <h2>Checkout</h2>
         <span class="close" id="closeModal">&times;</span>
       </div>
-      <form id="checkoutForm" action="{% url 'proceed_order' %}" method="post">
+      <form id="checkoutForm" action="{% url 'proceed_order' %}" method="get">
         {% csrf_token %}
         <label>Full Name</label>
         <input type="text" name="full_name" required>
