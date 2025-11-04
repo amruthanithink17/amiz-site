@@ -320,15 +320,18 @@
         <h2>Checkout</h2>
         <span class="close" id="closeModal">&times;</span>
       </div>
-      <form id="checkoutForm" action="{% url 'proceed_order' %}" method="get">
+      <form id="checkoutForm" action="{% url 'proceed_order' %}" method="post">
+        {% csrf_token %}
         <label>Full Name</label>
-        <input type="text" required>
+        <input type="text" name="full_name" required>
         <label>Email</label>
-        <input type="email" required>
+        <input type="email" name="email" required>
         <label>Address</label>
-        <textarea rows="3" required></textarea>
+        <textarea name="address" rows="3" required></textarea>
+        <label>Phone</label>
+        <input type="text" name="phone" required>
         <label>Payment Method</label>
-        <select required>
+        <select name="payment_method" required>
           <option value="">Select</option>
           <option>Credit Card</option>
           <option>Debit Card</option>
